@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "my-database"
+version = "0.0.0"
+description = "Minimal example database"
+authors = ["Freddy Wordingham <freddy@digilab.co.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typeguard = "^4.3.0"
+my-schema = { path = "../schema", develop = true }
+bcrypt = "^4.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

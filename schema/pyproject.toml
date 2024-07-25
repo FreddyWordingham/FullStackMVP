@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "my-schema"
+version = "0.0.0"
+description = "Minimal schema example"
+authors = ["Freddy Wordingham <freddy@digilab.co.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^2.8.2"
+typeguard = "^4.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

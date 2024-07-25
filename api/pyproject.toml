@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "my-api"
+version = "0.0.0"
+description = "A minimal example API"
+authors = ["Freddy Wordingham <freddy@digilab.co.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+fastapi = "^0.111.1"
+mangum = "^0.17.0"
+my-database = { path = "../database", develop = true }
+my-schema = { path = "../schema", develop = true }
+python = "^3.10"
+typeguard = "^4.3.0"
+uvicorn = "^0.30.3"
+pyjwt = "^2.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

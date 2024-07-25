@@ -1,18 +1,21 @@
 use enterpolation::{linear::Linear, Equidistant, Generator, Identity};
 use my_library::{render_colour_image, render_greyscale_image, sample_area, Complex};
+use nalgebra::Vector3;
 use ndarray::{Array2, Zip};
 use palette::LinSrgb;
 
 type Gradient = Linear<Equidistant<f32>, Vec<LinSrgb>, Identity>;
 
 fn main() {
-    let centre = Complex::new(-1.393, 0.00999);
-    let scale = 1.0e-2;
+    // let centre = Complex::new(-1.393, 0.00999);
+    let centre = Complex::new(-1.40479, -0.00005);
+    let scale = 4.0e-5;
     let super_samples = 2;
-    let max_iter = 100;
-    let resolution = [1000, 2000];
+    let max_iter = 1000;
+    let resolution = [10000, 10000];
 
-    let colours = ["#FF0000", "#007FFF"];
+    let colours = ["#eeaf61", "#fb9062", "#ee5d6c", "#ce4993", "#6a0d83"];
+
     let cmap: Gradient = Linear::builder()
         .elements(
             colours
@@ -32,8 +35,9 @@ fn main() {
 
     let data = sample_area(centre, scale, resolution, super_samples, max_iter);
 
-    let greyscale = greyscale_data(data.clone(), max_iter);
-    let mut colour = colour_data(data.clone(), max_iter, &cmap);
+    let max = data.iter().fold(0.0, |acc: f64, &x| acc.max(x)) as i32;
+    let greyscale = greyscale_data(data.clone(), max);
+    let mut colour = colour_data(data.clone(), max, &cmap);
 
     let light_direction = [0.0, 1.0, 1.0]; // Example light direction
     let shadowmap = calculate_shadowmap(&data, light_direction);
