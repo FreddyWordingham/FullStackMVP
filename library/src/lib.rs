@@ -1,10 +1,17 @@
 mod complex;
-mod cpu;
-mod render;
+mod config;
+pub mod filter;
+mod gradient;
+pub mod lighting;
+pub mod mandelbrot;
+pub mod math;
+pub mod render;
+mod settings;
 
 pub use complex::Complex;
-pub use cpu::{multi_sample, sample_area, sample_point};
-pub use render::{render_colour_image, render_greyscale_image};
+pub use config::Config;
+pub use gradient::Gradient;
+pub use settings::Settings;
 
 // use pyo3::prelude::*;
 

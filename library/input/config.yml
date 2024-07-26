@@ -1,0 +1,21 @@
+centre:
+  - -1.393
+  - 0.00999
+scale: 0.004
+
+super_samples: 2
+max_iter: 1000
+resolution:
+  - 512
+  - 512
+light_direction:
+  - 0.0
+  - 1.0
+  - 1.0
+
+colours:
+  - "#eeaf61"
+  - "#fb9062"
+  - "#ee5d6c"
+  - "#ce4993"
+  - "#6a0d83"

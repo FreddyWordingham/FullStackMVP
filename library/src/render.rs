@@ -1,8 +1,8 @@
 use image::{GrayImage, RgbImage};
 use ndarray::Array2;
 
-/// Render the given array of values as an image.
-pub fn render_greyscale_image(data: &Array2<u8>) -> GrayImage {
+/// Create an image representation from the given greyscale data.
+pub fn greyscale_image(data: &Array2<u8>) -> GrayImage {
     let (width, height) = data.dim();
 
     GrayImage::from_vec(
@@ -13,8 +13,8 @@ pub fn render_greyscale_image(data: &Array2<u8>) -> GrayImage {
     .expect("Container should have the right size for the image dimensions.")
 }
 
-/// Render the given array of RGB values as an image.
-pub fn render_colour_image(data: &Array2<[u8; 3]>) -> RgbImage {
+/// Create an image representation from the given RGB colour data.
+pub fn colour_image(data: &Array2<[u8; 3]>) -> RgbImage {
     let (width, height) = data.dim();
 
     RgbImage::from_vec(

@@ -6,12 +6,12 @@ use std::{
 /// Complex number representation.
 #[derive(Clone, Copy)]
 pub struct Complex {
-    pub re: f64,
-    pub im: f64,
+    pub re: f64, // Real component.
+    pub im: f64, // Imaginary component.
 }
 
 impl Complex {
-    /// Construct a complex number with real and imaginary parts set to zero.
+    /// Construct a complex number with real and imaginary component equal to zero.
     pub fn zero() -> Self {
         Self { re: 0.0, im: 0.0 }
     }
@@ -36,10 +36,10 @@ impl Add for Complex {
     type Output = Self;
 
     /// Add two complex numbers together.
-    fn add(self, other: Self) -> Self {
+    fn add(self, complex_rhs: Self) -> Self {
         Self {
-            re: self.re + other.re,
-            im: self.im + other.im,
+            re: self.re + complex_rhs.re,
+            im: self.im + complex_rhs.im,
         }
     }
 }
@@ -48,10 +48,10 @@ impl Mul<f64> for Complex {
     type Output = Self;
 
     /// Multiply this complex number by a given scalar.
-    fn mul(self, other: f64) -> Self {
+    fn mul(self, scalar_rhs: f64) -> Self {
         Self {
-            re: self.re * other,
-            im: self.re * other,
+            re: self.re * scalar_rhs,
+            im: self.re * scalar_rhs,
         }
     }
 }
@@ -60,10 +60,10 @@ impl Mul for Complex {
     type Output = Self;
 
     /// Multiply two complex numbers together.
-    fn mul(self, other: Self) -> Self {
+    fn mul(self, complex_rhs: Self) -> Self {
         Self {
-            re: (self.re * other.re) - (self.im * other.im),
-            im: (self.re * other.im) + (self.im * other.re),
+            re: (self.re * complex_rhs.re) - (self.im * complex_rhs.im),
+            im: (self.re * complex_rhs.im) + (self.im * complex_rhs.re),
         }
     }
 }

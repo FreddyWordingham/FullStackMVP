@@ -4,11 +4,14 @@ version = "0.0.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.86"
 enterpolation = "0.2.1"
 image = "0.25.2"
 nalgebra = "0.33.0"
 ndarray = { version = "0.15.6", features = ["rayon"] }
 palette = "0.7.6"
+serde = { version = "1.0.204", features = ["derive"] }
+serde_yaml = "0.9.34"
 # pyo3 = { version = "0.22.2", features = ["extension-module"] }
 
 [lib]

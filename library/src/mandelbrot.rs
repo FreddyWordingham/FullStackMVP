@@ -1,6 +1,6 @@
 use ndarray::{Array2, Zip};
 
-use crate::complex::Complex;
+use crate::{complex::Complex, Settings};
 
 pub fn sample_point(c: Complex, max_iter: i32) -> i32 {
     let mut z = Complex::zero();
@@ -29,26 +29,26 @@ pub fn multi_sample(c: Complex, max_iter: i32, super_samples: i32, epsilon: f64)
     total as f64 / (super_samples * super_samples) as f64
 }
 
-pub fn sample_area(
-    centre: Complex,
-    scale: f64,
-    resolution: [usize; 2],
-    super_samples: i32,
-    max_iter: i32,
-) -> Array2<f64> {
-    let mut data = Array2::zeros(resolution);
+pub fn sample_area(settings: &Settings) -> Array2<f64> {
+    let mut data = Array2::zeros(settings.resolution);
     let (height, width) = data.dim();
 
     let aspect_ratio = width as f64 / height as f64;
-    let start = centre + Complex::new(scale * -0.5, scale / aspect_ratio * -0.5);
-    let delta = scale / (width - 1).max(1) as f64;
-    let epsilon = delta / (2 * super_samples) as f64;
+    let start =
+        settings.centre + Complex::new(settings.scale * -0.5, settings.scale / aspect_ratio * -0.5);
+    let delta = settings.scale / (width - 1).max(1) as f64;
+    let epsilon = delta / (2 * settings.super_samples) as f64;
 
     Zip::indexed(&mut data).par_for_each(|(yi, xi), pixel| {
         let y = start.im + (delta * yi as f64);
         let x = start.re + (delta * xi as f64);
         let c = Complex::new(x, y);
-        *pixel = multi_sample(c, max_iter, super_samples, epsilon);
+        *pixel = multi_sample(
+            c,
+            settings.max_iter as i32,
+            settings.super_samples as i32,
+            epsilon,
+        );
     });
 
     data
