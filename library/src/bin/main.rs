@@ -7,11 +7,11 @@ fn main() {
         .build();
 
     // Run the pipeline
-    let (_samples, shadow_map, greyscale, mut colour) = pipeline::run(&settings);
+    let (_samples, light_map, greyscale, mut colour) = pipeline::run(&settings);
 
     // Render images
-    render::greyscale_image(&shadow_map.map(|&x| (x * 255.0) as u8))
-        .save("output/shadow_map.png")
+    render::greyscale_image(&light_map.map(|&x| (x * 255.0) as u8))
+        .save("output/light_map.png")
         .unwrap();
 
     render::greyscale_image(&greyscale)
@@ -22,7 +22,7 @@ fn main() {
         .save("output/colour.png")
         .unwrap();
 
-    filter::apply_shadow_map(&mut colour, &shadow_map);
+    filter::apply_light_map(&mut colour, &light_map);
     render::colour_image(&colour)
         .save("output/final.png")
         .unwrap();

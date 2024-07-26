@@ -40,9 +40,9 @@ pub fn sample_area(settings: &Settings) -> Array2<f64> {
     let epsilon = delta / (2 * settings.super_samples) as f64;
 
     Zip::indexed(&mut data).par_for_each(|(yi, xi), pixel| {
-        let y = start.im + (delta * yi as f64);
-        let x = start.re + (delta * xi as f64);
-        let c = Complex::new(x, y);
+        let re = start.re + (delta * xi as f64);
+        let im = start.im + (delta * yi as f64);
+        let c = Complex::new(re, im);
         *pixel = multi_sample(
             c,
             settings.max_iter as i32,

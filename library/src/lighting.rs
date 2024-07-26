@@ -1,8 +1,8 @@
 use nalgebra::Vector3;
 use ndarray::Array2;
 
-pub fn calculate_shadow_map(heightmap: &Array2<f64>, light_direction: [f64; 3]) -> Array2<f64> {
-    let mut shadow_map = Array2::zeros(heightmap.dim());
+pub fn calculate_light_map(heightmap: &Array2<f64>, light_direction: [f64; 3]) -> Array2<f64> {
+    let mut light_map = Array2::zeros(heightmap.dim());
 
     let (height, width) = heightmap.dim();
     let light_vec =
@@ -13,19 +13,19 @@ pub fn calculate_shadow_map(heightmap: &Array2<f64>, light_direction: [f64; 3]) 
             let dzdx = (heightmap[[y, x + 1]] - heightmap[[y, x - 1]]) / 2.0;
             let dzdy = (heightmap[[y + 1, x]] - heightmap[[y - 1, x]]) / 2.0;
             let normal = Vector3::new(-dzdx, -dzdy, 1.0).normalize();
-            let intensity = normal.dot(&light_vec).max(0.0);
-            shadow_map[[y, x]] = intensity;
+            let intensity = 1.0 - normal.dot(&light_vec).max(0.0);
+            light_map[[y, x]] = intensity;
         }
     }
 
     for x in 0..width {
-        shadow_map[[0, x]] = shadow_map[[1, x]];
-        shadow_map[[height - 1, x]] = shadow_map[[height - 2, x]];
+        light_map[[0, x]] = light_map[[1, x]];
+        light_map[[height - 1, x]] = light_map[[height - 2, x]];
     }
     for y in 0..height {
-        shadow_map[[y, 0]] = shadow_map[[y, 1]];
-        shadow_map[[y, width - 1]] = shadow_map[[y, width - 2]];
+        light_map[[y, 0]] = light_map[[y, 1]];
+        light_map[[y, width - 1]] = light_map[[y, width - 2]];
     }
 
-    shadow_map
+    light_map
 }

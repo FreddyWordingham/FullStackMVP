@@ -3,16 +3,6 @@ use ndarray::{Array2, Zip};
 
 use crate::gradient::Gradient;
 
-pub fn apply_shadow_map(data: &mut Array2<[u8; 3]>, shadow_map: &Array2<f64>) {
-    Zip::from(data)
-        .and(shadow_map)
-        .par_for_each(|rgb, &shadow| {
-            for c in 0..3 {
-                rgb[c] = (rgb[c] as f64 * (1.0 - shadow)) as u8;
-            }
-        });
-}
-
 pub fn greyscale_data(data: Array2<f64>, f: &Expr) -> Array2<u8> {
     let mut greyscale_data = Array2::zeros(data.dim());
     Zip::from(&mut greyscale_data)
@@ -33,4 +23,12 @@ pub fn colour_data(data: Array2<f64>, f: &Expr, cmap: &Gradient) -> Array2<[u8; 
             *rgb = cmap.sample(transform(val) as f32).into_format().into();
         });
     colour_data
+}
+
+pub fn apply_light_map(data: &mut Array2<[u8; 3]>, light_map: &Array2<f64>) {
+    Zip::from(data).and(light_map).par_for_each(|rgb, &light| {
+        for c in 0..3 {
+            rgb[c] = (rgb[c] as f64 * light) as u8;
+        }
+    });
 }

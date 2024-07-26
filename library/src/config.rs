@@ -15,6 +15,7 @@ pub struct Config {
     light_direction: [f64; 3],
     height_scaling: f64,
     colours: Vec<String>,
+    colour_loops: u32,
     colour_expression: String,
     greyscale_expression: String,
 }
@@ -35,6 +36,11 @@ impl Config {
         let colour_expression_func: Expr = self.colour_expression.parse().unwrap();
         let greyscale_expression_func: Expr = self.greyscale_expression.parse().unwrap();
 
+        let mut colours = self.colours.clone();
+        for _ in 0..self.colour_loops {
+            colours.extend(self.colours.iter().map(|s| s.clone()));
+        }
+
         Settings::new(
             Complex::new(self.centre[0], self.centre[1]),
             self.scale,
@@ -43,7 +49,7 @@ impl Config {
             self.resolution,
             self.light_direction,
             self.height_scaling,
-            Gradient::new(&self.colours.iter().map(|s| s.as_str()).collect::<Vec<_>>()),
+            Gradient::new(&colours.iter().map(|s| s.as_str()).collect::<Vec<_>>()),
             colour_expression_func,
             greyscale_expression_func,
         )

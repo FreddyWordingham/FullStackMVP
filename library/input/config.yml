@@ -1,21 +1,22 @@
 centre:
-  - -1.393
-  - 0.00999
-scale: 0.004
+  - 0.31145169909
+  - -0.44879946095
+scale: 4.0e-11
 
-super_samples: 2
-max_iter: 1000
+super_samples: 4
+max_iter: 13000
 resolution:
-  - 512
-  - 512
+  - 1440
+  - 3440
 light_direction:
+  - 1.0
+  - 1.0
   - 0.0
-  - 1.0
-  - 1.0
-height_scaling: 1000.0
+height_scaling: 13000.0
 
-colours: ["#eeaf61", "#fb9062", "#ee5d6c", "#ce4993", "#6a0d83"]
-# colours: ["#0000FF", "#00FF00", "#FF0000", "#FFFF00"]
+colours: ["#eeaf61", "#fb9062", "#ee5d6c", "#ce4993", "#6a0d83", "#000000"]
+# colours: ["#000000", "#6a0d83", "#ce4993", "#ee5d6c", "#fb9062", "#eeaf61"]
+colour_loops: 0
 
-colour_expression: "x^0.5"
+colour_expression: "x^2.0"
 greyscale_expression: "x^0.5"
