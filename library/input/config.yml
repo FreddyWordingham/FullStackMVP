@@ -12,10 +12,10 @@ light_direction:
   - 0.0
   - 1.0
   - 1.0
+height_scaling: 1000.0
 
-colours:
-  - "#eeaf61"
-  - "#fb9062"
-  - "#ee5d6c"
-  - "#ce4993"
-  - "#6a0d83"
+colours: ["#eeaf61", "#fb9062", "#ee5d6c", "#ce4993", "#6a0d83"]
+# colours: ["#0000FF", "#00FF00", "#FF0000", "#FFFF00"]
+
+colour_expression: "x^0.5"
+greyscale_expression: "x^0.5"

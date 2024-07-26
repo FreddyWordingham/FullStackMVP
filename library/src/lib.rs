@@ -2,16 +2,14 @@ mod complex;
 mod config;
 pub mod filter;
 mod gradient;
-pub mod lighting;
-pub mod mandelbrot;
-pub mod math;
+mod lighting;
+mod mandelbrot;
+mod math;
+pub mod pipeline;
 pub mod render;
 mod settings;
 
-pub use complex::Complex;
 pub use config::Config;
-pub use gradient::Gradient;
-pub use settings::Settings;
 
 // use pyo3::prelude::*;
 

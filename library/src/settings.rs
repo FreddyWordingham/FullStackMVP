@@ -1,20 +1,6 @@
-use anyhow::Result;
-use serde::{Deserialize, Serialize};
-use std::fs::File;
-use std::io::BufReader;
+use meval::Expr;
 
-use crate::{Complex, Gradient};
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Config {
-    centre: [f64; 2],
-    scale: f64,
-    super_samples: u32,
-    max_iter: u32,
-    resolution: [usize; 2],
-    light_direction: [f64; 3],
-    colours: Vec<String>,
-}
+use crate::{complex::Complex, gradient::Gradient};
 
 pub struct Settings {
     pub centre: Complex,
@@ -23,34 +9,36 @@ pub struct Settings {
     pub max_iter: u32,
     pub resolution: [usize; 2],
     pub light_direction: [f64; 3],
+    pub height_scaling: f64,
     pub gradient: Gradient,
+    pub colour_expression: Expr,
+    pub greyscale_expression: Expr,
 }
 
 impl Settings {
-    pub fn load(filepath: &str) -> Result<Self> {
-        // Open the file
-        let file = File::open(filepath)?;
-        let reader = BufReader::new(file);
-
-        // Deserialize the YAML into a Config struct
-        let config: Config = serde_yaml::from_reader(reader)?;
-
-        Ok(Self {
-            centre: Complex::new(config.centre[0], config.centre[1]),
-            scale: config.scale,
-
-            super_samples: config.super_samples,
-            max_iter: config.max_iter,
-            resolution: config.resolution,
-            light_direction: config.light_direction,
-
-            gradient: Gradient::new(
-                &config
-                    .colours
-                    .iter()
-                    .map(|s| s.as_str())
-                    .collect::<Vec<_>>(),
-            ),
-        })
+    pub fn new(
+        centre: Complex,
+        scale: f64,
+        super_samples: u32,
+        max_iter: u32,
+        resolution: [usize; 2],
+        light_direction: [f64; 3],
+        height_scaling: f64,
+        gradient: Gradient,
+        colour_expression: Expr,
+        greyscale_expression: Expr,
+    ) -> Self {
+        Self {
+            centre,
+            scale,
+            super_samples,
+            max_iter,
+            resolution,
+            light_direction,
+            height_scaling,
+            gradient,
+            colour_expression,
+            greyscale_expression,
+        }
     }
 }

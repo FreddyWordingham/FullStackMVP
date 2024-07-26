@@ -1,6 +1,6 @@
 use ndarray::{Array2, Zip};
 
-use crate::{complex::Complex, Settings};
+use crate::{complex::Complex, settings::Settings};
 
 pub fn sample_point(c: Complex, max_iter: i32) -> i32 {
     let mut z = Complex::zero();
