@@ -26,6 +26,37 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface AccessTokenResponse
+ */
+export interface AccessTokenResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessTokenResponse
+     */
+    'token_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessTokenResponse
+     */
+    'access_token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessTokenResponse
+     */
+    'refresh_token': string;
+    /**
+     * 
+     * @type {Profile}
+     * @memberof AccessTokenResponse
+     */
+    'profile': Profile;
+}
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -35,6 +66,25 @@ export interface HTTPValidationError {
      * @memberof HTTPValidationError
      */
     'detail'?: Array<ValidationError>;
+}
+/**
+ * 
+ * @export
+ * @interface Profile
+ */
+export interface Profile {
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'creation_timestamp': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Profile
+     */
+    'username': string;
 }
 /**
  * 
@@ -106,6 +156,163 @@ export interface ValidationError {
  */
 export interface ValidationErrorLocInner {
 }
+
+/**
+ * AuthenticationApi - axios parameter creator
+ * @export
+ */
+export const AuthenticationApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Generate Access Token
+         * @param {string} username 
+         * @param {string} password 
+         * @param {string | null} [grantType] 
+         * @param {string} [scope] 
+         * @param {string | null} [clientId] 
+         * @param {string | null} [clientSecret] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateAccessToken: async (username: string, password: string, grantType?: string | null, scope?: string, clientId?: string | null, clientSecret?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('generateAccessToken', 'username', username)
+            // verify required parameter 'password' is not null or undefined
+            assertParamExists('generateAccessToken', 'password', password)
+            const localVarPath = `/token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new URLSearchParams();
+
+
+            if (grantType !== undefined) { 
+                localVarFormParams.set('grant_type', grantType as any);
+            }
+    
+            if (username !== undefined) { 
+                localVarFormParams.set('username', username as any);
+            }
+    
+            if (password !== undefined) { 
+                localVarFormParams.set('password', password as any);
+            }
+    
+            if (scope !== undefined) { 
+                localVarFormParams.set('scope', scope as any);
+            }
+    
+            if (clientId !== undefined) { 
+                localVarFormParams.set('client_id', clientId as any);
+            }
+    
+            if (clientSecret !== undefined) { 
+                localVarFormParams.set('client_secret', clientSecret as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams.toString();
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AuthenticationApi - functional programming interface
+ * @export
+ */
+export const AuthenticationApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AuthenticationApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Generate Access Token
+         * @param {string} username 
+         * @param {string} password 
+         * @param {string | null} [grantType] 
+         * @param {string} [scope] 
+         * @param {string | null} [clientId] 
+         * @param {string | null} [clientSecret] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async generateAccessToken(username: string, password: string, grantType?: string | null, scope?: string, clientId?: string | null, clientSecret?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generateAccessToken(username, password, grantType, scope, clientId, clientSecret, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.generateAccessToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AuthenticationApi - factory interface
+ * @export
+ */
+export const AuthenticationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AuthenticationApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Generate Access Token
+         * @param {string} username 
+         * @param {string} password 
+         * @param {string | null} [grantType] 
+         * @param {string} [scope] 
+         * @param {string | null} [clientId] 
+         * @param {string | null} [clientSecret] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateAccessToken(username: string, password: string, grantType?: string | null, scope?: string, clientId?: string | null, clientSecret?: string | null, options?: any): AxiosPromise<AccessTokenResponse> {
+            return localVarFp.generateAccessToken(username, password, grantType, scope, clientId, clientSecret, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AuthenticationApi - object-oriented interface
+ * @export
+ * @class AuthenticationApi
+ * @extends {BaseAPI}
+ */
+export class AuthenticationApi extends BaseAPI {
+    /**
+     * 
+     * @summary Generate Access Token
+     * @param {string} username 
+     * @param {string} password 
+     * @param {string | null} [grantType] 
+     * @param {string} [scope] 
+     * @param {string | null} [clientId] 
+     * @param {string | null} [clientSecret] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public generateAccessToken(username: string, password: string, grantType?: string | null, scope?: string, clientId?: string | null, clientSecret?: string | null, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).generateAccessToken(username, password, grantType, scope, clientId, clientSecret, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 
 /**
  * CalculatorApi - axios parameter creator
@@ -224,12 +431,46 @@ export class CalculatorApi extends BaseAPI {
 export const TestsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * 
+         * @summary Auth Ping
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authPing: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth_ping`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication OAuth2PasswordBearer required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "OAuth2PasswordBearer", [], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Ping the server to check if it is running.
          * @summary Ping
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        pingAPI: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ping: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/ping`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -264,15 +505,27 @@ export const TestsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = TestsApiAxiosParamCreator(configuration)
     return {
         /**
+         * 
+         * @summary Auth Ping
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authPing(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authPing(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TestsApi.authPing']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Ping the server to check if it is running.
          * @summary Ping
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async pingAPI(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.pingAPI(options);
+        async ping(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ping(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestsApi.pingAPI']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestsApi.ping']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -286,13 +539,22 @@ export const TestsApiFactory = function (configuration?: Configuration, basePath
     const localVarFp = TestsApiFp(configuration)
     return {
         /**
+         * 
+         * @summary Auth Ping
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authPing(options?: any): AxiosPromise<boolean> {
+            return localVarFp.authPing(options).then((request) => request(axios, basePath));
+        },
+        /**
          * Ping the server to check if it is running.
          * @summary Ping
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        pingAPI(options?: any): AxiosPromise<boolean> {
-            return localVarFp.pingAPI(options).then((request) => request(axios, basePath));
+        ping(options?: any): AxiosPromise<boolean> {
+            return localVarFp.ping(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -305,14 +567,25 @@ export const TestsApiFactory = function (configuration?: Configuration, basePath
  */
 export class TestsApi extends BaseAPI {
     /**
+     * 
+     * @summary Auth Ping
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TestsApi
+     */
+    public authPing(options?: RawAxiosRequestConfig) {
+        return TestsApiFp(this.configuration).authPing(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Ping the server to check if it is running.
      * @summary Ping
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TestsApi
      */
-    public pingAPI(options?: RawAxiosRequestConfig) {
-        return TestsApiFp(this.configuration).pingAPI(options).then((request) => request(this.axios, this.basePath));
+    public ping(options?: RawAxiosRequestConfig) {
+        return TestsApiFp(this.configuration).ping(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
